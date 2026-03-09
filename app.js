@@ -1,103 +1,141 @@
 const sheetURL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vQl2Kx3SpXSA3IyCQoLaalLjibwCh2f6nURBZU-qABgT6hA5eeGOaiKOfmOas93rwsgi4OlBr-ttbqp/pub?gid=0&single=true&output=csv";
 
-async function loadData() {
+let allGames = []
 
-  const res = await fetch(sheetURL);
-  const text = await res.text();
+async function loadData(){
 
-  const rows = text.trim().split("\n").map(r => r.split(","));
+const res = await fetch(sheetURL)
+const text = await res.text()
 
-  const headers = rows.shift();
+const rows = text.trim().split("\n").map(r=>r.split(","))
 
-  const games = rows.map(row => {
-    let obj = {};
-    headers.forEach((h, i) => obj[h.trim()] = row[i]?.trim());
-    return obj;
-  });
+const headers = rows.shift()
 
-  computeLeaderboard(games);
-}
+allGames = rows.map(row=>{
+let obj={}
+headers.forEach((h,i)=>obj[h.trim()] = row[i]?.trim())
+return obj
+})
 
-function computeLeaderboard(games) {
-
-  let players = {};
-
-  games.forEach(game => {
-
-    const list = [
-      game.Player1,
-      game.Player2,
-      game.Player3,
-      game.Player4,
-      game.Player5,
-      game.Player6
-    ];
-
-    list.forEach(player => {
-
-      if (!player) return;
-
-      if (!players[player]) {
-        players[player] = {
-          name: player,
-          games: 0,
-          wins: 0,
-          points: 0
-        };
-      }
-
-      players[player].games++;
-
-      if (game.Winner === player) {
-        players[player].wins++;
-        players[player].points += 6;
-      } else {
-        players[player].points += 1;
-      }
-
-    });
-
-  });
-
-  const leaderboard = Object.values(players).map(p => {
-    p.winrate = p.wins / p.games;
-    return p;
-  });
-
-  leaderboard.sort((a, b) => b.points - a.points);
-
-  renderTable(leaderboard);
-
-  if (typeof renderCharts === "function") {
-    renderCharts(leaderboard);
-  }
+computeLeaderboard()
 
 }
 
-function renderTable(players) {
+function computeLeaderboard(){
 
-  const tbody = document.querySelector("#leaderboard tbody");
+let players = {}
 
-  tbody.innerHTML = "";
+allGames.forEach(game=>{
 
-  players.forEach((p, index) => {
+const list = [
+game.Player1,
+game.Player2,
+game.Player3,
+game.Player4,
+game.Player5,
+game.Player6
+]
 
-    const row = document.createElement("tr");
+list.forEach(player=>{
 
-    row.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${p.name}</td>
-      <td>${p.games}</td>
-      <td>${p.wins}</td>
-      <td>${p.points}</td>
-      <td>${(p.winrate * 100).toFixed(1)}%</td>
-    `;
+if(!player) return
 
-    tbody.appendChild(row);
+if(!players[player]){
 
-  });
+players[player] = {
+name:player,
+games:0,
+wins:0,
+points:0
+}
 
 }
 
-loadData();
+players[player].games++
+
+if(game.Winner === player){
+
+players[player].wins++
+players[player].points += 6
+
+}else{
+
+players[player].points += 1
+
+}
+
+})
+
+})
+
+const leaderboard = Object.values(players).map(p=>{
+
+p.winrate = p.wins / p.games
+return p
+
+})
+
+leaderboard.sort((a,b)=> b.points - a.points)
+
+renderTable(leaderboard)
+
+renderCharts(leaderboard)
+
+}
+
+function renderTable(players){
+
+const tbody = document.querySelector("#leaderboard tbody")
+
+tbody.innerHTML = ""
+
+players.forEach((p,index)=>{
+
+const row = document.createElement("tr")
+
+row.innerHTML = `
+<td>${index+1}</td>
+<td class="player">${p.name}</td>
+<td>${p.games}</td>
+<td>${p.wins}</td>
+<td>${p.points}</td>
+<td>${(p.winrate*100).toFixed(1)}%</td>
+`
+
+row.onclick = () => openPlayer(p.name)
+
+tbody.appendChild(row)
+
+})
+
+}
+
+function openPlayer(player){
+
+const modal = document.getElementById("playerModal")
+
+modal.style.display = "block"
+
+const games = allGames.filter(g =>
+Object.values(g).includes(player)
+)
+
+let wins = games.filter(g => g.Winner === player).length
+
+document.getElementById("playerName").innerText = player
+
+document.getElementById("playerStats").innerText =
+`Games: ${games.length} | Wins: ${wins}`
+
+renderProgressChart(player,games)
+
+}
+
+document.getElementById("closeModal").onclick = ()=>{
+document.getElementById("playerModal").style.display="none"
+}
+
+loadData()
+
+setInterval(loadData,30000)
