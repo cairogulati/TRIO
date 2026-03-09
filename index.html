@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="style.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -16,9 +16,7 @@
 
 <div class="container">
 
-<h1>🏆 TRIO – Game of the Month</h1>
-
-<div id="podium"></div>
+<h1>TRIO – Game of the Month</h1>
 
 <div class="leaderboard-card">
 
@@ -46,14 +44,27 @@
 <div class="charts">
 
 <div class="chart-box">
-<h3>Points</h3>
+<h3>Points Distribution</h3>
 <canvas id="pointsChart"></canvas>
 </div>
 
-<div class="chart-box">
-<h3>Win Rate</h3>
-<canvas id="winRateChart"></canvas>
 </div>
+
+</div>
+
+<!-- PLAYER PROFILE MODAL -->
+
+<div id="playerModal" class="modal">
+
+<div class="modal-content">
+
+<span id="closeModal">✖</span>
+
+<h2 id="playerName"></h2>
+
+<p id="playerStats"></p>
+
+<canvas id="progressChart"></canvas>
 
 </div>
 
