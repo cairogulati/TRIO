@@ -6,15 +6,21 @@
 
 <link rel="stylesheet" href="style.css">
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
 <body>
 
+<div class="container">
+
 <h1>🏆 TRIO – Game of the Month</h1>
 
 <div id="podium"></div>
+
+<div class="leaderboard-card">
 
 <h2>Leaderboard</h2>
 
@@ -35,10 +41,25 @@
 
 </table>
 
-<h2>Player Stats</h2>
+</div>
 
-<canvas id="chart"></canvas>
+<div class="charts">
 
+<div class="chart-box">
+<h3>Points</h3>
+<canvas id="pointsChart"></canvas>
+</div>
+
+<div class="chart-box">
+<h3>Win Rate</h3>
+<canvas id="winRateChart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+<script src="charts.js"></script>
 <script src="app.js"></script>
 
 </body>
