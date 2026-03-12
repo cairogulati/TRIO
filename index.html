@@ -71,7 +71,8 @@ text-shadow:0 0 20px rgba(168,85,247,0.5);
 /* container */
 
 .container{
-width:1200px;
+max-width:1400px;
+width:95%;
 margin:auto;
 margin-top:30px;
 }
@@ -104,7 +105,8 @@ box-shadow:
 table{
 width:100%;
 border-collapse:collapse;
-font-size:18px;
+font-size:20px;
+min-width:500px;
 }
 
 th{
@@ -114,7 +116,7 @@ opacity:0.8;
 }
 
 th,td{
-padding:14px;
+padding:18px;
 text-align:center;
 border-bottom:1px solid rgba(255,255,255,0.05);
 }
@@ -277,6 +279,7 @@ font-style:italic;
 
 <h2>🏆 Leaderboard</h2>
 
+<div style="overflow-x:auto">
 <table id="leaderboard">
 
 <thead>
@@ -284,13 +287,13 @@ font-style:italic;
 <th>Rank</th>
 <th>Player</th>
 <th>Points</th>
-<th>Games</th>
 </tr>
 </thead>
 
 <tbody></tbody>
 
 </table>
+</div>
 
 <div class="facts" id="facts"></div>
 
@@ -453,7 +456,6 @@ tr.innerHTML=`
 <td>${rank}</td>
 <td>${p.name}</td>
 <td>${p.points}</td>
-<td>${p.games}</td>
 `
 
 tr.onclick=()=>openPlayer(p.name)
