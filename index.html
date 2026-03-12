@@ -23,35 +23,6 @@ linear-gradient(135deg,#020617,#0f172a);
 color:white;
 }
 
-/* floating trio cards */
-
-.cards-bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-overflow:hidden;
-}
-
-.card-bg{
-position:absolute;
-font-size:120px;
-opacity:0.04;
-animation:float 20s infinite linear;
-}
-
-.card-bg:nth-child(1){left:10%;top:20%}
-.card-bg:nth-child(2){left:70%;top:60%}
-.card-bg:nth-child(3){left:40%;top:80%}
-
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(-40px)}
-100%{transform:translateY(0)}
-}
-
 /* header */
 
 header{
@@ -64,11 +35,7 @@ letter-spacing:3px;
 background:linear-gradient(90deg,#6366f1,#a855f7,#ec4899);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-
-text-shadow:0 0 20px rgba(168,85,247,0.5);
 }
-
-/* container */
 
 .container{
 max-width:1400px;
@@ -77,42 +44,18 @@ margin:auto;
 margin-top:30px;
 }
 
-/* card */
-
 .card{
 background:linear-gradient(145deg,#020617,#0f172a);
 border-radius:18px;
 padding:30px;
-
 border:1px solid rgba(255,255,255,0.08);
-
-box-shadow:
-0 20px 40px rgba(0,0,0,0.6),
-inset 0 0 20px rgba(255,255,255,0.03);
-
-transition:0.3s;
 }
-
-.card:hover{
-transform:translateY(-3px);
-box-shadow:
-0 25px 60px rgba(0,0,0,0.8),
-0 0 20px rgba(168,85,247,0.2);
-}
-
-/* leaderboard */
 
 table{
 width:100%;
 border-collapse:collapse;
 font-size:20px;
 min-width:500px;
-}
-
-th{
-text-transform:uppercase;
-letter-spacing:1px;
-opacity:0.8;
 }
 
 th,td{
@@ -122,43 +65,17 @@ border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
 tbody tr{
-animation:fadeIn 0.4s ease;
-transition:0.2s;
 cursor:pointer;
+transition:0.2s;
 }
 
 tr:hover{
-background:linear-gradient(90deg,#312e81,#4c1d95);
-transform:scale(1.02);
-box-shadow:0 0 12px rgba(168,85,247,0.5);
+background:#312e81;
 }
 
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
-}
-
-/* ranks */
-
-.rank1{
-color:#facc15;
-font-weight:700;
-text-shadow:0 0 12px #facc15;
-}
-
-.rank2{
-color:#e5e7eb;
-font-weight:700;
-text-shadow:0 0 10px #cbd5f5;
-}
-
-.rank3{
-color:#f97316;
-font-weight:700;
-text-shadow:0 0 10px #f97316;
-}
-
-/* modal */
+.rank1{color:#facc15}
+.rank2{color:#e5e7eb}
+.rank3{color:#f97316}
 
 .modal{
 position:fixed;
@@ -174,43 +91,22 @@ justify-content:center;
 
 .modal-content{
 width:900px;
-
-background:
-linear-gradient(180deg,#020617,#020617 40%,#111827);
-
+background:#020617;
 border-radius:18px;
-
 padding:35px;
-
-border:1px solid rgba(255,255,255,0.08);
-
-box-shadow:
-0 30px 80px rgba(0,0,0,0.8),
-0 0 25px rgba(139,92,246,0.3);
 }
-
-.close{
-float:right;
-font-size:22px;
-cursor:pointer;
-}
-
-/* avatar */
 
 .avatar{
 width:70px;
 height:70px;
 border-radius:50%;
-background:linear-gradient(45deg,#6366f1,#ec4899);
+background:#6366f1;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:28px;
 font-weight:700;
-margin-bottom:10px;
 }
-
-/* stats */
 
 .stats{
 display:flex;
@@ -226,35 +122,15 @@ flex:1;
 text-align:center;
 }
 
-.stat h2{
-margin:0;
-}
-
-.badges{
-margin-top:10px;
-font-size:18px;
-}
-
-/* history */
-
 .history{
 margin-top:25px;
 max-height:200px;
 overflow:auto;
 }
 
-.history div{
-padding:6px;
-border-bottom:1px solid #1e293b;
-}
-
-/* facts */
-
-.facts{
-margin-top:25px;
-text-align:center;
-opacity:0.7;
-font-style:italic;
+.legendStats{
+margin-top:20px;
+font-size:18px;
 }
 
 </style>
@@ -262,12 +138,6 @@ font-style:italic;
 </head>
 
 <body>
-
-<div class="cards-bg">
-<div class="card-bg">3</div>
-<div class="card-bg">3</div>
-<div class="card-bg">3</div>
-</div>
 
 <header>
 🎲 TRIO — Game of the Month
@@ -280,6 +150,7 @@ font-style:italic;
 <h2>🏆 Leaderboard</h2>
 
 <div style="overflow-x:auto">
+
 <table id="leaderboard">
 
 <thead>
@@ -293,37 +164,31 @@ font-style:italic;
 <tbody></tbody>
 
 </table>
-</div>
-
-<div class="facts" id="facts"></div>
 
 </div>
 
 </div>
 
+</div>
 
 <div class="modal" id="playerModal">
 
 <div class="modal-content">
 
-<span class="close" onclick="closeModal()">✖</span>
-
 <div class="avatar" id="avatar"></div>
 
 <h1 id="playerName"></h1>
 
-<div class="badges" id="badges"></div>
-
 <div class="stats">
-
-<div class="stat">
-<h2 id="games"></h2>
-<p>Games</p>
-</div>
 
 <div class="stat">
 <h2 id="wins"></h2>
 <p>Wins</p>
+</div>
+
+<div class="stat">
+<h2 id="games"></h2>
+<p>Games</p>
 </div>
 
 <div class="stat">
@@ -338,6 +203,8 @@ font-style:italic;
 
 </div>
 
+<div class="legendStats" id="legendStats"></div>
+
 <canvas id="playerChart"></canvas>
 
 <div class="history" id="history"></div>
@@ -346,21 +213,15 @@ font-style:italic;
 
 </div>
 
-
 <script>
 
-const sheet="https://docs.google.com/spreadsheets/d/e/2PACX-1vQl2Kx3SpXSA3IyCQoLaalLjibwCh2f6nURBZU-qABgT6hA5eeGOaiKOfmOas93rwsgi4OlBr-ttbqp/pub?gid=0&single=true&output=csv"
+const sheet="YOUR_GOOGLE_SHEET_CSV"
 
 let players={}
-let chart
-
-const facts=[
-"TRIO is about memory, deduction and a little bit of luck.",
-"The fastest TRIO wins usually happen in under 5 minutes.",
-"A perfect TRIO round means finding all matches before opponents.",
-"The memory is what matters.",
-"Many TRIO champions focus on tracking card positions mentally."
-]
+let rivalries={}
+let dangerousPlayer=""
+let comebackKing=""
+let nemesisMaster=""
 
 function load(){
 
@@ -370,13 +231,12 @@ header:true,
 complete:(res)=>process(res.data)
 })
 
-document.getElementById("facts").innerText=facts[Math.floor(Math.random()*facts.length)]
-
 }
 
 function process(data){
 
 players={}
+rivalries={}
 
 data.forEach(g=>{
 
@@ -397,18 +257,111 @@ let score=player===g.Winner?6:1
 players[player].scores.push(score)
 
 players[player].history.push({
-date:g.Date,
-score:score,
 win:player===g.Winner
 })
 
-if(player===g.Winner)players[player].wins++
+if(player===g.Winner){
+
+players[player].wins++
+
+p.forEach(opponent=>{
+
+if(opponent && opponent!==player){
+
+let key=player+"|"+opponent
+
+if(!rivalries[key])rivalries[key]=0
+
+rivalries[key]++
+
+}
+
+})
+
+}
 
 })
 
 })
+
+detectStats()
 
 buildLeaderboard()
+
+}
+
+function detectStats(){
+
+let board=[]
+
+Object.keys(players).forEach(p=>{
+
+let top=players[p].scores.slice().sort((a,b)=>b-a).slice(0,10)
+
+let points=top.reduce((a,b)=>a+b,0)
+
+board.push({name:p,points})
+
+})
+
+board.sort((a,b)=>b.points-a.points)
+
+let topPlayers=board.slice(0,3).map(x=>x.name)
+
+let bestDanger=0
+
+Object.keys(players).forEach(p=>{
+
+let wins=0
+let games=0
+
+players[p].history.forEach(h=>{
+games++
+if(h.win)wins++
+})
+
+let wr=wins/games
+
+if(wr>bestDanger){
+bestDanger=wr
+dangerousPlayer=p
+}
+
+})
+
+let bestComeback=-1
+
+Object.keys(players).forEach(p=>{
+
+let hist=players[p].history
+
+let mid=Math.floor(hist.length/2)
+
+let early=hist.slice(0,mid)
+let late=hist.slice(mid)
+
+let ew=early.filter(x=>x.win).length/(early.length||1)
+let lw=late.filter(x=>x.win).length/(late.length||1)
+
+let diff=lw-ew
+
+if(diff>bestComeback){
+bestComeback=diff
+comebackKing=p
+}
+
+})
+
+let bestNemesis=0
+
+Object.keys(rivalries).forEach(key=>{
+
+if(rivalries[key]>bestNemesis){
+bestNemesis=rivalries[key]
+nemesisMaster=key.split("|")[0]
+}
+
+})
 
 }
 
@@ -422,11 +375,7 @@ let top=players[p].scores.slice().sort((a,b)=>b-a).slice(0,10)
 
 let points=top.reduce((a,b)=>a+b,0)
 
-board.push({
-name:p,
-points:points,
-games:players[p].games
-})
+board.push({name:p,points})
 
 })
 
@@ -446,15 +395,15 @@ data.forEach((p,i)=>{
 
 let tr=document.createElement("tr")
 
-let rank=i+1
+let icons=""
 
-if(rank===1)tr.classList.add("rank1")
-if(rank===2)tr.classList.add("rank2")
-if(rank===3)tr.classList.add("rank3")
+if(p.name===dangerousPlayer)icons+=" ⚔️"
+if(p.name===comebackKing)icons+=" 🔥"
+if(p.name===nemesisMaster)icons+=" 👿"
 
 tr.innerHTML=`
-<td>${rank}</td>
-<td>${p.name}</td>
+<td>${i+1}</td>
+<td>${p.name}${icons}</td>
 <td>${p.points}</td>
 `
 
@@ -471,80 +420,30 @@ function openPlayer(name){
 let p=players[name]
 
 document.getElementById("playerName").innerText=name
-document.getElementById("avatar").innerText=name[0].toUpperCase()
+document.getElementById("avatar").innerText=name[0]
 
-document.getElementById("games").innerText=p.games
 document.getElementById("wins").innerText=p.wins
+document.getElementById("games").innerText=p.games
 document.getElementById("winrate").innerText=((p.wins/p.games)*100).toFixed(1)+"%"
 document.getElementById("points").innerText=p.scores.reduce((a,b)=>a+b,0)
 
-let badges=""
+let stats=""
 
-let streak=0
-let maxStreak=0
-
-p.history.forEach(h=>{
-if(h.win){
-streak++
-if(streak>maxStreak)maxStreak=streak
-}else{
-streak=0
+if(name===dangerousPlayer){
+stats+="⚔️ Most Dangerous Player<br>"
 }
-})
 
-if(maxStreak>=3)badges+="👑 Triple Master "
-if(maxStreak>=2)badges+="🔥 Win Streak "
+if(name===comebackKing){
+stats+="🔥 Comeback King<br>"
+}
 
-document.getElementById("badges").innerText=badges
+if(name===nemesisMaster){
+stats+="👿 Nemesis Master<br>"
+}
+
+document.getElementById("legendStats").innerHTML=stats
 
 document.getElementById("playerModal").style.display="flex"
-
-let cumulative=[]
-let total=0
-
-p.scores.forEach(s=>{
-total+=s
-cumulative.push(total)
-})
-
-if(chart)chart.destroy()
-
-chart=new Chart(document.getElementById("playerChart"),{
-
-type:"line",
-
-data:{
-labels:cumulative.map((_,i)=>"Game "+(i+1)),
-datasets:[{
-label:"Points Progression",
-data:cumulative,
-fill:true,
-borderColor:"#a855f7",
-backgroundColor:"rgba(168,85,247,0.2)"
-}]
-}
-
-})
-
-let history=document.getElementById("history")
-
-history.innerHTML=""
-
-p.history.slice().reverse().forEach(h=>{
-
-let div=document.createElement("div")
-
-div.innerHTML=`${h.date || "Game"} — ${h.win?"🏆 Win":"Played"} (+${h.score})`
-
-history.appendChild(div)
-
-})
-
-}
-
-function closeModal(){
-
-document.getElementById("playerModal").style.display="none"
 
 }
 
